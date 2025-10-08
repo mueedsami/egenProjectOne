@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::limit(10)->get();
-        return response()->json($products);
+        $products = Product::limit(12)->get();
+        return view('home', compact('products'));
+    }
+
+    public function show($slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+        return view('product', compact('product'));
     }
 }

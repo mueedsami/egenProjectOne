@@ -1,40 +1,46 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>@yield('title', 'Deshio')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Core Styles -->
+    <!-- CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ asset('template/styles/main_styles.css') }}">
+<link rel="stylesheet" href="{{ asset('template/styles/allResponsive.css') }}">
+<link rel="stylesheet" href="{{ asset('template/styles/slider.css') }}">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-
-    <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    @stack('styles')
 </head>
+<body>
+<div class="super_container">
 
-<body class="font-sans antialiased bg-gray-100">
-    <nav class="bg-white shadow mb-4">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="{{ url('/') }}" class="text-lg font-semibold">Laravel CRUD</a>
-            <div class="space-x-4">
-                <a href="{{ route('posts.index') }}" class="text-blue-600 hover:underline">Posts</a>
-                @auth
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="text-red-600 hover:underline">Logout</button>
-                    </form>
-                @endauth
-            </div>
-        </div>
-    </nav>
+    {{-- Header --}}
+    @include('partials.header')
 
-    <main class="max-w-7xl mx-auto px-4">
-        @yield('content')
-    </main>
+    {{-- Page Content --}}
+    @yield('content')
+
+    {{-- Footer --}}
+    @include('partials.footer')
+
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="{{ asset('template/js/custom.js') }}"></script>
+
+
+@stack('scripts')
 </body>
 </html>

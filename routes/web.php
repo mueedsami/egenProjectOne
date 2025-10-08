@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProductController;
+
+// Redirect root to product listing (home)
+Route::get('/', [ProductController::class, 'index'])->name('home');
+
+// Product details page
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,18 +22,18 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::middleware(['auth'])->group(function () {
+// Route::middleware(['auth'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    // Post resource routes (only for logged-in users)
-    Route::resource('posts', App\Http\Controllers\PostController::class);
-});
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+//     // Post resource routes (only for logged-in users)
+//     Route::resource('posts', App\Http\Controllers\PostController::class);
+// });
 
 
 // Protected dashboard route (only logged-in users can access)

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Tek Ürün</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="styles/allResponsive.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="styles/allResponsive.css">   
+<!-- ####################################################################################### EGE-  iki adet .css dosyası eklendi -->
+<link rel="stylesheet" type="text/css" href="styles/slider.css">   
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+</head>
+
+<body>
+
+<div class="super_container">
+<!-- BÜTÜN SAYFALARA GEREKLİİİİİİ-->
+	<!-- YÖNETİM PANELİ -->
+	<header class="header trans_300" style="height: 0;">
+		<div class="main_nav_container">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-right">
+						<div class="logo_container">
+							<a href="index.html" style="color:white">Outfi<span>TR</span></a>
+						</div>
+						<nav class="navbar">
+							<ul class="navbar_menu" style="margin-top: -15px;">
+								<li><a href="index.html" style="color:white; font-size: 20px ; font-family:Cormorant Garamond, Georgia, serif;">ANASAYFA</a></li>
+								<li><a href="categories.html" style="color:white; font-size: 20px ; font-family:Cormorant Garamond, Georgia, serif;">AlIŞVERİŞ</a></li>
+								<li><a href="contact.html" style="color:white; font-size: 20px ; font-family:Cormorant Garamond, Georgia, serif;">İLETİŞİM</a></li>
+							</ul>
+							<ul class="navbar_user" style="margin-top: -15px;">
+								<li><a href="#"><i class="fa fa-search"  style="color:white" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-user" style="color:white " aria-hidden="true"></i></a></li>
+								<li class="checkout">
+									<a href="card.html">
+										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+										<span id="checkout_items" class="checkout_items"></span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+<!-- BÜTÜN SAYFALARA GEREKLİİİİİİ OLAN BİTTİİİ-->
+
+
+	<div class="fs_menu_overlay"></div>
+
+	<div class="container single_product_container">
+		<div class="row">
+			<div class="col">
+
+				<!-- Sayfa Akışı -->
+
+				<div class="breadcrumbs d-flex flex-row align-items-center">
+					<ul>
+						<li><a href="index.html">Anasayfa</a></li>
+						<li><a href="categories.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Erkek</a></li>
+						<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Tek Ürün</a></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-7">
+				<div class="single_product_pics">
+					<div class="row">
+						<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
+							<div class="single_product_thumbnails">
+								<ul>
+									<li><img src="images/single11.jpg" alt="" data-image="images/single1.jpg"></li>
+									<li class="active"><img src="images/single21.jpg" alt="" data-image="images/single2.jpg"></li>
+									<li><img src="images/single31.jpg" alt="" data-image="images/single3.jpg"></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-lg-9 image_col order-lg-2 order-1">
+							<div class="single_product_image">
+								<div class="single_product_image_background" style="background-image:url(images/single1.jpg)"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-5">
+				<div class="product_details">
+					<div class="product_details_title">
+						<h2>Suni Deri Ceket</h2>
+						<p>Yandan fermuarlı şık tasarımıyla dikkat çekici..</p>
+					</div>
+					<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
+						<span class="ti-truck"></span><span>Ücretsiz Teslimat</span>
+					</div>
+					<div class="product_price">180 ₺</div>
+					<ul class="star_rating">
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star" aria-hidden="true"></i></li>
+						<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+					</ul>
+					<div class="product_color">
+						<span>Renk Seç</span>
+						<ul>
+							<li style="background: #e54e5d"></li>
+							<li style="background: #252525"></li>
+							<li style="background: #60b3f3"></li>
+						</ul>
+					</div>
+					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+						<span>Adet :</span>
+						<div class="quantity_selector">
+							<span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+							<span id="quantity_value">1</span>
+							<span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+						</div>
+						<div class="red_button add_to_cart_button"><a href="card.html">Sepete Ekle</a></div>
+						<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Sekmeler -->
+
+	<div class="tabs_section_container">
+
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="tabs_container">
+						<ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+							<li class="tab active" data-active-tab="tab_1"><span>Açıklama</span></li>
+							<li class="tab" data-active-tab="tab_2"><span>Ek Bilgi</span></li>
+							<li class="tab" data-active-tab="tab_3"><span>Yorumlar</span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+
+					<!-- Sekme açıklaması -->
+
+					<div id="tab_1" class="tab_container active">
+						<div class="row">
+							<div class="col-lg-5 desc_col">
+								<div class="tab_title">
+									<h4>Açıklama</h4>
+								</div>
+								<div class="tab_text_block">
+									<h2>ŞIKLIK</h2>
+									<p>Üstünüze oturan bir mont istemez misiniz?</p>
+								</div>
+								<div class="tab_image">
+									<img src="images/single1.jpg" alt="">
+								</div>
+								<div class="tab_text_block">
+									<h2>ASALET</h2>
+									<p>Siyahın büyüleyici uyumuyla asaleti yakalayın.</p>
+								</div>
+							</div>
+							<div class="col-lg-5 offset-lg-2 desc_col">
+								<div class="tab_image">
+									<img src="images/single2.jpg" alt="">
+								</div>
+								<div class="tab_text_block">
+									<h2>SAĞLIK</h2>
+									<p>%100 polyester olup rahatlıkla evde yıkayabilirsiniz.</p>
+								</div>
+								<div class="tab_image desc_last">
+									<img src="images/single3.jpg" alt="">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Sekme ek bilgi -->
+
+					<div id="tab_2" class="tab_container">
+						<div class="row">
+							<div class="col additional_info_col">
+								<div class="tab_title additional_info_title">
+									<h4>Ek Bilgi</h4>
+								</div>
+								<p>Mankenin bedeni:<span>M</span></p>
+								<p>Kumaş türü:<span>Polyester</span></p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Sekme yorumlar -->
+
+					<div id="tab_3" class="tab_container">
+						<div class="row">
+
+							<!-- Kullanıcı Yorumları -->
+
+							<div class="col-lg-6 reviews_col">
+								<div class="tab_title reviews_title">
+									<h4>Yorumlar</h4>
+								</div>
+
+								<!-- Kullanıcı Yorumları -->
+
+								<div class="user_review_container d-flex flex-column flex-sm-row">
+									<div class="user">
+										<div class="user_pic"></div>
+										<div class="user_rating">
+											<ul class="star_rating">
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="review">
+										<div class="review_date">12 Ocak 2020</div>
+										<div class="user_name">Eylül Hazal A.</div>
+										<p>Mükemmel bir ürün kesinlikle tavsiye ederim.</p>
+									</div>
+								</div>
+
+								<!-- Kullanıcı Yorumları -->
+
+								<div class="user_review_container d-flex flex-column flex-sm-row">
+									<div class="user">
+										<div class="user_pic"></div>
+										<div class="user_rating">
+											<ul class="star_rating">
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+											</ul>
+										</div>
+									</div>
+									<div class="review">
+										<div class="review_date">30 Ocak Aug 2020</div>
+										<div class="user_name">Hava Y.</div>
+										<p>Kaliteli ürün, hızlı teslimat</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Yorum ekle -->
+
+							<div class="col-lg-6 add_review_col">
+
+								<div class="add_review">
+									<form id="review_form" action="post">
+										<div>
+											<h1>Yorum Ekle</h1>
+											<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="İsim*" required="required" data-error="İsim gerekli.">
+											<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Geçersiz email">
+										</div>
+										<div>
+											<h1>Derecelendir</h1>
+											<ul class="user_star_rating">
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+											</ul>
+											<textarea id="review_message" class="input_review" name="message"  placeholder="Yorumunuz" rows="4" required data-error="Lütfen bir yorum ekleyiniz."></textarea>
+										</div>
+										<div class="text-left text-sm-right">
+											<button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">Gönder</button>
+										</div>
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	
+
+<!-- HER SAYFAYA GEREKLİ!!!!!! -->
+	<!-- Avantajlar -->
+
+	<div class="benefit">
+		<div class="container">
+			<div class="row benefit_row">
+				<div class="col-lg-3 benefit_col">
+					<div class="benefit_item d-flex flex-row align-items-center">
+						<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
+						<div class="benefit_content">
+							<h6>Ücretsiz Kargo</h6>
+							<p>100 ₺ üzerine ücretsiz kargo imkanı. </p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 benefit_col">
+					<div class="benefit_item d-flex flex-row align-items-center">
+						<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+						<div class="benefit_content">
+							<h6>HIZLI TESLİMAT</h6>
+							<p>En kısa sürede kargonuz evinizde.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 benefit_col">
+					<div class="benefit_item d-flex flex-row align-items-center">
+						<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
+						<div class="benefit_content">
+							<h6>45 gün içinde iade</h6>
+							<p>45 gün içinde iade alabiliriz</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 benefit_col">
+					<div class="benefit_item d-flex flex-row align-items-center">
+						<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+						<div class="benefit_content">
+							<h6>haftanın her günü</h6>
+							<p>08:00 - 21:00</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bülten -->
+
+	<div class="newsletter">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+						<h4>Bülten</h4>
+						<p>Bültenimize abone olun, ilk alışverişte %20 indirim kazanın.</p>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<form action="post">
+						<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+							<input id="newsletter_email" type="email" placeholder="Email" required="required" data-error="Valid email is required.">
+							<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Abone Ol</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Altbilgi -->
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+					<ul>
+						<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="footer_nav_container">
+					<div class="cr">©2020 Tüm Hakları Saklıdır.  <i class="fa fa-heart-o" aria-hidden="true"></i>  <a href="#"></a>  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- Bütün sayfalara gerekli olan bittii-->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="js/single_custom.js"></script>
+</body>
+
+</html>
