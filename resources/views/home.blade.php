@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="red_button add_to_cart_button">
-                        <a href="{{ route('product.show', $product->slug) }}">Satın Al</a>
+                        <a href="{{ route('product.show', $product->slug) }}">See Product</a>
                     </div>
                 </div>
             @empty

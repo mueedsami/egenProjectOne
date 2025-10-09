@@ -28,4 +28,33 @@ class Product extends Model
         'meta_keywords',
 
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'price' => 'decimal:2',
+        'discount_price' => 'deciman:2'
+
+    ];
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    public function images(){
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function reviews(){
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function getPrimaryImageUrlAttribute(){
+        $img = $this->images()->where('is_primary', true)->first() ?? $this->images()->first();
+        return $img ? asset('storage/' . $primaryImage->image_path) : asset('images/no-image.png');
+    }
+
+
 }

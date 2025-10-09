@@ -33,7 +33,7 @@
 
             {{-- Add to Cart --}}
             <div class="mt-4">
-                <form action="#" method="POST">
+                <form action="{{route ('cart.add', $product->id)}}" method="POST">
                     @csrf
                     <div class="form-group d-flex align-items-center">
                         <input type="number" name="quantity" value="1" min="1" class="form-control w-25 me-3">
