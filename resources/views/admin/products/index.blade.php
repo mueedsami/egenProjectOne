@@ -4,8 +4,9 @@
 
 @section('content')
 <div class="container py-5">
+
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="mb-0">Products</h3>
+        <h3 class="mb-0 fw-semibold">Products</h3>
         <a href="{{ route('admin.products.create') }}" class="btn btn-primary">+ Add Product</a>
     </div>
 
@@ -13,16 +14,16 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form class="mb-3" method="GET">
+    <form class="mb-3" method="GET" action="{{ route('admin.products.index') }}">
         <div class="input-group">
-            <input type="text" name="q" class="form-control" value="{{ $q }}" placeholder="Search name or SKU...">
-            <button class="btn btn-outline-secondary">Search</button>
+            <input type="text" name="q" class="form-control" value="{{ $q ?? '' }}" placeholder="Search name or SKU...">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
         </div>
     </form>
 
     <div class="table-responsive bg-white shadow-sm rounded">
         <table class="table mb-0 align-middle">
-            <thead>
+            <thead class="table-light">
                 <tr>
                     <th style="width:60px;">Image</th>
                     <th>Name</th>
@@ -39,20 +40,28 @@
                 @forelse($products as $p)
                     <tr>
                         <td>
-                            <img src="{{ $p->primary_image_url }}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;">
+                            <img src="{{ $p->primary_image_url ? asset('storage/'.$p->primary_image_url) : asset('images/no-image.png') }}"
+                                 alt="product"
+                                 style="width:48px;height:48px;object-fit:cover;border-radius:6px;">
                         </td>
-                        <td>{{ $p->name }}</td>
-                        <td>{{ $p->sku }}</td>
-                        <td>{{ optional($p->category)->name }}</td>
-                        <td>{{ optional($p->brand)->name }}</td>
-                        <td class="text-end">{{ number_format($p->price,2) }} ₺</td>
-                        <td class="text-center">{{ $p->stock_qty }}</td>
+                        <td>
+                            <strong>{{ $p->name }}</strong>
+                            <div class="text-muted small">{{ $p->sku }}</div>
+                        </td>
+                        <td>{{ optional($p->category)->name ?? '—' }}</td>
+                        <td>{{ optional($p->brand)->name ?? '—' }}</td>
+                        <td class="text-end">{{ number_format($p->price, 2) }} ₺</td>
                         <td class="text-center">
-                            @if($p->is_active)
-                                <span class="badge bg-success">Yes</span>
+                            @if($p->stock_qty > 0)
+                                <span class="badge bg-success">{{ $p->stock_qty }}</span>
                             @else
-                                <span class="badge bg-secondary">No</span>
+                                <span class="badge bg-danger">Out</span>
                             @endif
+                        </td>
+                        <td class="text-center">
+                            <span class="badge {{ $p->is_active ? 'bg-success' : 'bg-secondary' }}">
+                                {{ $p->is_active ? 'Yes' : 'No' }}
+                            </span>
                         </td>
                         <td class="text-end">
                             <a href="{{ route('admin.products.edit', $p) }}" class="btn btn-sm btn-outline-primary">Edit</a>
@@ -64,7 +73,9 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="9" class="text-center py-4">No products yet.</td></tr>
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted">No products found.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>

@@ -1,132 +1,97 @@
-@extends('layouts.app')
-
-@section('title', 'Admin · Products')
-
-@section('content')
-<div class="container py-5">
-
-    {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="mb-0 fw-semibold">Products</h3>
-        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">+ Add Product</a>
-    </div>
-
-    {{-- Flash Message --}}
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    {{-- Search Bar --}}
-    <form class="mb-3" method="GET" action="{{ route('admin.products.index') }}">
-        <div class="input-group">
-            <input type="text" name="q" class="form-control" value="{{ $q }}" placeholder="Search name or SKU...">
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
+@csrf
+<div class="card shadow-sm p-4">
+    <div class="row g-3">
+        {{-- Name --}}
+        <div class="col-md-6">
+            <label class="form-label">Product Name</label>
+            <input type="text" name="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" required>
         </div>
-    </form>
 
-    {{-- Product Table --}}
-    <div class="table-responsive bg-white shadow-sm rounded">
-        <table class="table mb-0 align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th style="width:60px;">Image</th>
-                    <th>Name</th>
-                    <th>SKU</th>
-                    <th>Category</th>
-                    <th>Brand</th>
-                    <th class="text-end">Price</th>
-                    <th class="text-center">Stock</th>
-                    <th class="text-center">Active</th>
-                    <th class="text-center">Created</th>
-                    <th class="text-end" style="width:180px;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($products as $p)
-                    <tr>
-                        {{-- Thumbnail --}}
-                        <td>
-                            <img src="{{ $p->primary_image_url ?? asset('template/images/default.png') }}"
-                                 alt="product image"
-                                 style="width:48px;height:48px;object-fit:cover;border-radius:6px;">
-                        </td>
+        {{-- SKU --}}
+        <div class="col-md-6">
+            <label class="form-label">SKU</label>
+            <input type="text" name="sku" value="{{ old('sku', $product->sku ?? '') }}" class="form-control">
+        </div>
 
-                        {{-- Basic Info --}}
-                        <td>
-                            <strong>{{ $p->name }}</strong>
-                            <div class="text-muted small">
-                                {{ Str::limit($p->short_description, 40) }}
-                            </div>
-                        </td>
-                        <td>{{ $p->sku ?? '-' }}</td>
-                        <td>{{ optional($p->category)->name ?? '-' }}</td>
-                        <td>{{ optional($p->brand)->name ?? '-' }}</td>
+        {{-- Category --}}
+        <div class="col-md-6">
+            <label class="form-label">Category</label>
+            <select name="category_id" class="form-select">
+                <option value="">— Select Category —</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" @selected(old('category_id', $product->category_id ?? '') == $cat->id)>
+                        {{ $cat->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-                        {{-- Price --}}
-                        <td class="text-end">
-                            {{ number_format($p->price, 2) }} ₺
-                            @if($p->discount_price)
-                                <div class="text-muted small">
-                                    <del>{{ number_format($p->discount_price, 2) }} ₺</del>
-                                </div>
-                            @endif
-                        </td>
+        {{-- Brand --}}
+        <div class="col-md-6">
+            <label class="form-label">Brand</label>
+            <select name="brand_id" class="form-select">
+                <option value="">— Select Brand —</option>
+                @foreach($brands as $brand)
+                    <option value="{{ $brand->id }}" @selected(old('brand_id', $product->brand_id ?? '') == $brand->id)>
+                        {{ $brand->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-                        {{-- Stock --}}
-                        <td class="text-center">
-                            @if($p->stock_qty > 0)
-                                <span class="badge bg-success">{{ $p->stock_qty }}</span>
-                            @else
-                                <span class="badge bg-danger">Out</span>
-                            @endif
-                        </td>
+        {{-- Price / Discount --}}
+        <div class="col-md-6">
+            <label class="form-label">Price (₺)</label>
+            <input type="number" step="0.01" name="price" value="{{ old('price', $product->price ?? '') }}" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Discount Price (₺)</label>
+            <input type="number" step="0.01" name="discount_price" value="{{ old('discount_price', $product->discount_price ?? '') }}" class="form-control">
+        </div>
 
-                        {{-- Active Status --}}
-                        <td class="text-center">
-                            @if($p->is_active)
-                                <span class="badge bg-success">Yes</span>
-                            @else
-                                <span class="badge bg-secondary">No</span>
-                            @endif
-                        </td>
+        {{-- Stock --}}
+        <div class="col-md-6">
+            <label class="form-label">Stock Quantity</label>
+            <input type="number" name="stock_qty" value="{{ old('stock_qty', $product->stock_qty ?? 0) }}" class="form-control" min="0">
+        </div>
 
-                        {{-- Created At --}}
-                        <td class="text-center text-muted">
-                            {{ $p->created_at ? $p->created_at->diffForHumans() : '-' }}
-                        </td>
+        {{-- Active --}}
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="form-check mt-4">
+                <input type="checkbox" name="is_active" id="activeCheck" class="form-check-input"
+                    {{ old('is_active', $product->is_active ?? true) ? 'checked' : '' }}>
+                <label for="activeCheck" class="form-check-label">Active</label>
+            </div>
+        </div>
 
-                        {{-- Actions --}}
-                        <td class="text-end">
-                            <a href="{{ route('admin.products.edit', $p) }}"
-                               class="btn btn-sm btn-outline-primary">
-                                <i class="fa fa-pencil"></i> Edit
-                            </a>
-                            <form action="{{ route('admin.products.destroy', $p) }}"
-                                  method="POST"
-                                  class="d-inline"
-                                  onsubmit="return confirm('Are you sure you want to delete this product?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger">
-                                    <i class="fa fa-trash"></i> Delete
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="10" class="text-center py-4 text-muted">
-                            No products found.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+        {{-- Descriptions --}}
+        <div class="col-12">
+            <label class="form-label">Short Description</label>
+            <textarea name="short_description" class="form-control" rows="2">{{ old('short_description', $product->short_description ?? '') }}</textarea>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Full Description</label>
+            <textarea name="description" class="form-control" rows="4">{{ old('description', $product->description ?? '') }}</textarea>
+        </div>
 
-    {{-- Pagination --}}
-    <div class="mt-3 d-flex justify-content-end">
-        {{ $products->links() }}
+        {{-- Images --}}
+        <div class="col-12">
+            <label class="form-label">Product Images</label>
+            <input type="file" name="images[]" class="form-control" multiple accept="image/*">
+
+            @if(!empty($product->images))
+                <div class="d-flex flex-wrap gap-2 mt-2">
+                    @foreach($product->images as $img)
+                        <img src="{{ asset('storage/'.$img->image_url) }}" alt="" style="width:80px;height:80px;object-fit:cover;border-radius:6px;">
+                    @endforeach
+                </div>
+            @endif
+        </div>
+
+        {{-- Buttons --}}
+        <div class="col-12 text-end mt-3">
+            <button class="btn btn-success">{{ $submitLabel ?? 'Save' }}</button>
+            <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
     </div>
 </div>
-@endsection
