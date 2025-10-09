@@ -13,24 +13,13 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
-     */
+    /** USER REGISTER VIEW */
     public function create()
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    /** USER REGISTER HANDLER */
     public function store(Request $request)
     {
         $request->validate([
@@ -43,12 +32,40 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => 2, // normal user
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    /** ADMIN REGISTER VIEW */
+    public function createAdmin()
+    {
+        return view('auth.register-admin');
+    }
+
+    /** ADMIN REGISTER HANDLER */
+    public function storeAdmin(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 1, // admin
+        ]);
+
+        event(new Registered($user));
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::ADMIN_HOME);
     }
 }

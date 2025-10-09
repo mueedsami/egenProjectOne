@@ -32,7 +32,7 @@ class Product extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'price' => 'decimal:2',
-        'discount_price' => 'deciman:2'
+        'discount_price' => 'decimal:2'
 
     ];
 
