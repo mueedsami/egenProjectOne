@@ -3,12 +3,12 @@
 @section('title', 'Home')
 
 @section('content')
-    {{-- Slider --}}
-    @include('partials.slider') {{-- optional, if you make slider partial later --}}
+    {{-- =================== SLIDER =================== --}}
+    @includeIf('partials.slider') {{-- optional, include only if exists --}}
 
-    {{-- Categories / banners --}}
+    {{-- =================== CATEGORIES / BANNERS =================== --}}
     <div class="banner">
-        ... keep your existing category HTML here ...
+        {{-- keep your existing category/banner HTML here --}}
     </div>
 
     {{-- =================== NEW ARRIVALS =================== --}}
@@ -23,49 +23,89 @@
             </div>
 
             <div class="row">
-    <div class="col">
-        <div class="product-grid d-flex flex-wrap justify-content-center">
-            @forelse($products as $product)
-                <div class="product-item m-3" style="width:250px;">
-                    <div class="product product_filter">
-                        <div class="product_image">
-                            <a href="{{ route('product.show', $product->slug) }}">
-                                <img src="{{ $product->image_url ? asset('storage/' . $product->image_url) : asset('template/images/product_1.png') }}" 
-                                     alt="{{ $product->name }}">
-                            </a>
-                        </div>
+                <div class="col">
+                    <div class="product-grid d-flex flex-wrap justify-content-center">
+                        @forelse($products as $product)
+                            @php
+                                // Preload all images (so we can use first and second)
+                                $images = $product->relationLoaded('images') ? $product->images : $product->images()->get();
+                                $primary = $images->firstWhere('is_primary', true) ?? $images->first();
+                                $secondary = $images->count() > 1 ? $images->skip(1)->first() : null;
+                            @endphp
 
-                        <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">
-                            <span>Yeni</span>
-                        </div>
+                            <div class="product-item m-3 position-relative" style="width:250px;">
+                                <div class="product product_filter position-relative overflow-hidden">
 
-                        <div class="product_info text-center">
-                            <h6 class="product_name">
-                                <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
-                            </h6>
+                                    {{-- Product image with hover swap --}}
+                                    <div class="product_image position-relative" style="height:250px; overflow:hidden;">
+                                        <a href="{{ route('product.show', $product->slug) }}">
+                                            <img
+                                                src="{{ $primary ? asset('storage/' . $primary->image_url) : asset('images/no-image.png') }}"
+                                                alt="{{ $product->name }}"
+                                                class="img-fluid w-100 main-image"
+                                                style="object-fit:cover; transition:opacity 0.3s ease;"
+                                            >
+                                            @if($secondary)
+                                                <img
+                                                    src="{{ asset('storage/' . $secondary->image_url) }}"
+                                                    alt="{{ $product->name }}"
+                                                    class="img-fluid w-100 hover-image position-absolute top-0 start-0"
+                                                    style="object-fit:cover; opacity:0; transition:opacity 0.3s ease;"
+                                                >
+                                            @endif
+                                        </a>
+                                    </div>
 
-                            <div class="product_price">
-                                {{ number_format($product->price, 2) }} ₺
-                                @if($product->discount_price)
-                                    <span>{{ number_format($product->discount_price, 2) }} ₺</span>
-                                @endif
+                                    {{-- Hover effect script --}}
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", () => {
+                                            document.querySelectorAll('.product-item').forEach(item => {
+                                                const main = item.querySelector('.main-image');
+                                                const hover = item.querySelector('.hover-image');
+                                                if (hover) {
+                                                    item.addEventListener('mouseenter', () => hover.style.opacity = 1);
+                                                    item.addEventListener('mouseleave', () => hover.style.opacity = 0);
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+                                    {{-- Tag bubble --}}
+                                    <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">
+                                        <span>Yeni</span>
+                                    </div>
+
+                                    {{-- Product info --}}
+                                    <div class="product_info text-center mt-2">
+                                        <h6 class="product_name mb-1">
+                                            <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
+                                        </h6>
+
+                                        <div class="product_price">
+                                            {{ number_format($product->price, 2) }} ₺
+                                            @if($product->discount_price)
+                                                <span class="text-muted text-decoration-line-through">
+                                                    {{ number_format($product->discount_price, 2) }} ₺
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Add to cart / view button --}}
+                                <div class="red_button add_to_cart_button mt-2">
+                                    <a href="{{ route('product.show', $product->slug) }}">See Product</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="red_button add_to_cart_button">
-                        <a href="{{ route('product.show', $product->slug) }}">See Product</a>
+                        @empty
+                            <p class="text-center w-100">Henüz ürün bulunmamaktadır.</p>
+                        @endforelse
                     </div>
                 </div>
-            @empty
-                <p class="text-center w-100">Henüz ürün bulunmamaktadır.</p>
-            @endforelse
+            </div>
         </div>
     </div>
-</div>
 
-        </div>
-    </div>
     {{-- =================== BENEFITS =================== --}}
     <div class="benefit">
         <div class="container">
@@ -119,7 +159,4 @@
             </div>
         </div>
     </div>
-
-    {{-- Benefit + Newsletter sections --}}
-    ... paste those from your HTML unchanged ...
 @endsection

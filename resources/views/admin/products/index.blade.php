@@ -40,9 +40,11 @@
                 @forelse($products as $p)
                     <tr>
                         <td>
-                            <img src="{{ $p->primary_image_url ? asset('storage/'.$p->primary_image_url) : asset('images/no-image.png') }}"
-                                 alt="product"
-                                 style="width:48px;height:48px;object-fit:cover;border-radius:6px;">
+                            @php
+    $primaryImage = $p->primary_image_url ? asset('storage/'.$p->primary_image_url) : asset('images/no-image.png');
+@endphp
+<img src="{{ $primaryImage }}" alt="product image" style="width:48px;height:48px;object-fit:cover;border-radius:6px;">
+
                         </td>
                         <td>
                             <strong>{{ $p->name }}</strong>

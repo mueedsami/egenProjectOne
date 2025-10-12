@@ -51,10 +51,18 @@ class Product extends Model
         return $this->hasMany(ProductReview::class);
     }
 
-    public function getPrimaryImageUrlAttribute(){
+    public function getPrimaryImageUrlAttribute()
+    {
+        // Get primary image or fallback to first
         $img = $this->images()->where('is_primary', true)->first() ?? $this->images()->first();
-        return $img ? asset('storage/' . $primaryImage->image_path) : asset('images/no-image.png');
+
+        if ($img && $img->image_url) {
+            return $img->image_url; // store only the relative path, Blade will use asset() itself
+        }
+
+        return null; // let Blade fallback to placeholder
     }
+
 
 
 }
