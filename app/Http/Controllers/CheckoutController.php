@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderPlacedMail;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -22,25 +24,32 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $cart = session()->get('cart', []);
+
         if (empty($cart)) {
             return redirect()->route('home')->with('error', 'Sepetiniz boş!');
         }
 
-        // Create order
+        $user = auth()->user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Sipariş vermek için giriş yapınız.');
+        }
+
+        $subtotal = collect($cart)->sum(fn($i) => $i['price'] * $i['quantity']);
+
         $order = Order::create([
-            'user_id' => 1, // static for now
+            'user_id' => $user->id,
             'order_number' => uniqid('ORD-'),
             'status' => 'pending',
             'payment_status' => 'unpaid',
-            'subtotal' => collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']),
-            'total_amount' => collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']),
+            'subtotal' => $subtotal,
+            'total_amount' => $subtotal,
         ]);
 
-        // Create order items
-        foreach ($cart as $id => $details) {
+        foreach ($cart as $productId => $details) {
             OrderItem::create([
                 'order_id' => $order->id,
-                'product_id' => $id,
+                'product_id' => $productId,
                 'name_snapshot' => $details['name'],
                 'price_snapshot' => $details['price'],
                 'quantity' => $details['quantity'],
@@ -48,7 +57,15 @@ class CheckoutController extends Controller
             ]);
         }
 
+        try {
+            Mail::to($user->email)->send(new OrderPlacedMail($order->fresh('items')));
+            Log::info('✅ Order mail sent successfully', ['to' => $user->email]);
+        } catch (\Throwable $e) {
+            Log::error('❌ Mail send failed', ['error' => $e->getMessage()]);
+        }
+
         session()->forget('cart');
-        return redirect()->route('home')->with('success', 'Sipariş başarıyla oluşturuldu!');
+
+        return redirect()->route('home')->with('success', 'Sipariş başarıyla oluşturuldu! Onay e-postası gönderildi.');
     }
 }
