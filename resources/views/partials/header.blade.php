@@ -36,6 +36,28 @@
                                 </a>
                             </li>
 
+                            @auth
+                                @if(auth()->user()->role_id == 1)
+                                {{-- Admin sees the inbox --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.chats.index') }}">
+                                            <i class="fa fa-comments"></i> Chats
+                                        </a>
+                                    </li>
+                                @else       
+                                {{-- Regular user sees their 1:1 chat --}}
+                                        <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('chat.index') }}">
+                                <i class="fa fa-comments"></i> Chat with Admin
+            </a>
+        </li>
+    @endif
+@endauth
+
+
+
+
+
                             {{-- User Dropdown --}}
                             <li class="nav-item dropdown" style="position: relative;">
                                 @guest

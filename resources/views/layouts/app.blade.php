@@ -40,6 +40,49 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="{{ asset('template/js/custom.js') }}"></script>
 
+@auth
+    @if(Route::has('chat.index'))
+        <!-- Floating Chat Button -->
+        <a href="{{ route('chat.index') }}" 
+           id="chatBubble"
+           class="d-flex align-items-center justify-content-center">
+            <i class="fa fa-comments"></i>
+        </a>
+
+        <style>
+            #chatBubble {
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background-color: #007bff;
+                color: #fff;
+                font-size: 26px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                transition: all 0.3s ease-in-out;
+                z-index: 9999;
+            }
+            #chatBubble:hover {
+                background-color: #0056b3;
+                transform: scale(1.08);
+            }
+
+            /* Optional pulse animation */
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(0,123,255, 0.5); }
+                70% { box-shadow: 0 0 0 10px rgba(0,123,255, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(0,123,255, 0); }
+            }
+            #chatBubble {
+                animation: pulse 2s infinite;
+            }
+        </style>
+    @endif
+@endauth
+
+
 
 @stack('scripts')
 </body>

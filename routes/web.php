@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Mail\OrderPlacedMail;
 use App\Models\Order;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Admin\AdminChatController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,13 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/send', [ChatController::class, 'storeMessage'])->name('chat.send');
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | ADMIN AUTHENTICATION
@@ -49,6 +59,8 @@ Route::get('/admin/login', [AuthenticatedSessionController::class, 'createAdmin'
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'storeAdmin'])->name('admin.login.submit');
 Route::get('/admin/register', [RegisteredUserController::class, 'createAdmin'])->name('admin.register');
 Route::post('/admin/register', [RegisteredUserController::class, 'storeAdmin'])->name('admin.register.submit');
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -61,14 +73,24 @@ Route::middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
         // ✅ Use custom names to prevent product.show conflict
-        Route::resource('products', AdminProductController::class)->names('admin.products');
+        Route::resource('products', AdminProductController::class);
     });
 
 /*
+
+
 |--------------------------------------------------------------------------
 | TEST ROUTES
 |--------------------------------------------------------------------------
 */
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/chats', [AdminChatController::class, 'index'])->name('chats.index');
+    Route::get('/chats/{chat}', [AdminChatController::class, 'show'])->name('chats.show');
+    Route::post('/chats/{chat}/send', [AdminChatController::class, 'send'])->name('chats.send');
+});
+
+
 Route::get('/test-mail', function () {
     $order = Order::latest()->first();
     if (!$order) {
