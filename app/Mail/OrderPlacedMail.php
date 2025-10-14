@@ -20,10 +20,14 @@ class OrderPlacedMail extends Mailable
 
     public function build()
     {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('orders.invoice', ['order' => $this->order]);
+        
         return $this
             ->subject('Order Confirmation: '.$this->order->order_number)
             ->markdown('emails.orders.placed', [
                 'order' => $this->order,
-            ]);
+
+            ])
+            ->attachData($pdf->output(), 'invoice-' . $this->order->order_number . '.pdf');
     }
 }
