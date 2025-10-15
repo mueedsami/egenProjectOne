@@ -13,6 +13,9 @@ use App\Mail\OrderPlacedMail;
 use App\Models\Order;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\AdminChatController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
+
 
 
 /*
@@ -20,7 +23,7 @@ use App\Http\Controllers\Admin\AdminChatController;
 | USER SIDE
 |--------------------------------------------------------------------------
 */
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 
 
@@ -32,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/place', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
 });
+
+Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+Route::post('/payment/success', [PaymentController::class, 'success']);
+Route::post('/payment/fail', [PaymentController::class, 'fail']);
+Route::post('/payment/cancel', [PaymentController::class, 'cancel']);
 
 
 /*

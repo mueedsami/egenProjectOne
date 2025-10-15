@@ -23,15 +23,23 @@ class Category extends Model
         'is_active' => 'boolean',
     ];
 
-    public function parent(){
+    // app/Models/Category.php
+    public function parent()
+    {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function children(){
+    public function children()
+    {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function products(){
+    public function products()
+    {
         return $this->hasMany(Product::class);
     }
+
+
+
+    
 }
