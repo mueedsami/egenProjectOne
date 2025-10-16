@@ -20,5 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', [ProductController::class, 'index']);
+// Public API routes
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{slug}', [ProductController::class, 'show']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+
+// Authenticated (user must be logged in)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/checkout', [CheckoutController::class, 'store']);
+});
+
+// Route::get('/', [ProductController::class, 'index']);
 //Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');

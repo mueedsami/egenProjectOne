@@ -15,6 +15,9 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\OrderController;
 
 
 
@@ -25,6 +28,12 @@ use App\Http\Controllers\PaymentController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
+Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
+
 
 
 Route::middleware('auth')->group(function () {

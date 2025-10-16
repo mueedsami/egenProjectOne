@@ -3,64 +3,54 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="container py-5">
-    <h2 class="fw-bold mb-4">👋 Welcome back, {{ Auth::user()->name }}</h2>
+<section class="bg-stone-50 py-16 min-h-screen">
+  <div class="max-w-7xl mx-auto px-6">
+
+    {{-- Welcome Header --}}
+    <div class="mb-12">
+      <h2 class="text-3xl font-bold text-stone-800 mb-2">👋 Welcome back, {{ Auth::user()->name }}</h2>
+      <p class="text-stone-500">Here’s a quick overview of your store performance.</p>
+    </div>
 
     {{-- Overview Cards --}}
-    <div class="row g-4 mb-5">
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 bg-primary text-white">
-                <div class="card-body text-center">
-                    <h3 class="fw-bold mb-0">{{ \App\Models\Product::count() }}</h3>
-                    <small>Products</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 bg-success text-white">
-                <div class="card-body text-center">
-                    <h3 class="fw-bold mb-0">{{ \App\Models\Category::count() }}</h3>
-                    <small>Categories</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 bg-info text-white">
-                <div class="card-body text-center">
-                    <h3 class="fw-bold mb-0">{{ \App\Models\Brand::count() }}</h3>
-                    <small>Brands</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm border-0 bg-dark text-white">
-                <div class="card-body text-center">
-                    <h3 class="fw-bold mb-0">{{ \App\Models\User::count() }}</h3>
-                    <small>Users</small>
-                </div>
-            </div>
-        </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+      <div class="bg-amber-600 text-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-3xl font-bold">{{ \App\Models\Product::count() }}</h3>
+        <p class="text-sm opacity-90">Products</p>
+      </div>
+      <div class="bg-emerald-600 text-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-3xl font-bold">{{ \App\Models\Category::count() }}</h3>
+        <p class="text-sm opacity-90">Categories</p>
+      </div>
+      <div class="bg-sky-600 text-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-3xl font-bold">{{ \App\Models\Brand::count() }}</h3>
+        <p class="text-sm opacity-90">Brands</p>
+      </div>
+      <div class="bg-stone-800 text-white rounded-2xl shadow p-6 text-center">
+        <h3 class="text-3xl font-bold">{{ \App\Models\User::count() }}</h3>
+        <p class="text-sm opacity-90">Users</p>
+      </div>
     </div>
 
-    {{-- Quick Links --}}
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white fw-semibold">
-            Quick Actions
-        </div>
-        <div class="card-body">
-            <a href="{{ route('admin.products.create') }}" class="btn btn-outline-primary me-2">
-                + Add New Product
-            </a>
-            <a href="{{ route('admin.products.index') }}" class="btn btn-outline-success me-2">
-                📦 Manage Products
-            </a>
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-dark">
-                🔄 Refresh Dashboard
-            </a>
-        </div>
+    {{-- Quick Actions --}}
+    <div class="bg-white border border-stone-200 rounded-xl shadow-sm p-8">
+      <h3 class="text-lg font-semibold text-stone-800 mb-6">Quick Actions</h3>
+      <div class="flex flex-wrap gap-4">
+        <a href="{{ route('admin.products.create') }}"
+           class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-md shadow transition">
+          + Add New Product
+        </a>
+        <a href="{{ route('admin.products.index') }}"
+           class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-md shadow transition">
+          📦 Manage Products
+        </a>
+        <a href="{{ route('admin.dashboard') }}"
+           class="bg-stone-700 hover:bg-stone-800 text-white px-6 py-2 rounded-md shadow transition">
+          🔄 Refresh Dashboard
+        </a>
+      </div>
     </div>
-</div>
+
+  </div>
+</section>
 @endsection

@@ -5,8 +5,10 @@
         ? asset('storage/'.$product->images->first()->image_url)
         : asset('images/no-image.png');
 
-    $discount = $product->discount_price
-        ? round((1 - ($product->discount_price / $product->price)) * 100)
+    $price = floatval($product->price);
+    $discountPrice = floatval($product->discount_price);
+    $discount = ($price > 0 && $discountPrice > 0 && $discountPrice < $price)
+        ? round((($price - $discountPrice) / $price) * 100)
         : 0;
 
     $isSoldOut = isset($product->stock_qty) && $product->stock_qty <= 0;
@@ -22,14 +24,14 @@
 
         {{-- Discount Badge --}}
         @if($discount > 0)
-            <span class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-semibold px-2.5 py-1.5 rounded-full shadow">
+            <span class="absolute top-3 right-3 bg-amber-600 text-white text-xs font-semibold px-2.5 py-1.5 rounded-full shadow">
                 -{{ $discount }}%
             </span>
         @endif
 
         {{-- Sold Out Badge --}}
         @if($isSoldOut)
-            <span class="absolute top-3 right-3 bg-stone-800/90 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-full shadow">
+            <span class="absolute top-6 right-3 bg-stone-800/90 text-white text-[11px] font-semibold px-2.5 py-1.5 rounded-full shadow">
                 SOLD OUT
             </span>
         @endif
@@ -58,8 +60,12 @@
         </p>
 
         {{-- Add to Cart --}}
-        <button class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold uppercase px-4 py-2 rounded-md transition">
-            Add to Cart
-        </button>
+        <form action="{{ route('cart.add', $product->id) }}" method="POST">
+            @csrf
+            <button type="submit"
+                class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold uppercase px-4 py-2 rounded-md transition w-full">
+                Add to Cart
+            </button>
+        </form>
     </div>
 </div>

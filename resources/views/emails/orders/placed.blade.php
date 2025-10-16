@@ -1,18 +1,36 @@
 @component('mail::message')
-# Thanks for your order, {{ optional($order->user)->name ?? 'Customer' }}!
+# Hello {{ $order->user->name ?? 'Customer' }} 👋
 
-**Order:** {{ $order->order_number }}  
+Thank you for shopping with **Deshio!**  
+Your order has been successfully placed and is being processed.
+
+---
+
+### 🧾 Order Summary
+**Order No:** {{ $order->order_number }}  
 **Status:** {{ ucfirst($order->status) }}  
-**Total:** {{ number_format($order->total_amount,2) }} ৳
+**Payment:** {{ ucfirst($order->payment_status) }}
 
-@component('mail::panel')
+@component('mail::table')
+| Product | Quantity | Price |
+|:--------|:---------:|------:|
 @foreach($order->items as $item)
-- {{ $item->name_snapshot }} × {{ $item->quantity }} — {{ number_format($item->total_price,2) }} ৳
+| {{ $item->name_snapshot }} | {{ $item->quantity }} | ৳{{ number_format($item->total_price, 2) }} |
 @endforeach
 @endcomponent
 
-We’ll notify you when it ships.
+**Subtotal:** ৳{{ number_format($order->subtotal, 2) }}  
+**Total:** ৳{{ number_format($order->total_amount, 2) }}
 
-Thanks,<br>
-{{ config('app.name') }}
+---
+
+@component('mail::button', ['url' => url('/orders/'.$order->id)])
+View Your Order
+@endcomponent
+
+We’ve also attached a copy of your **invoice PDF** for your records.  
+
+Thanks again for supporting **local Bangladeshi fashion** 🇧🇩  
+— *Team Deshio*
+
 @endcomponent

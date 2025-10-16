@@ -62,7 +62,7 @@
 {{-- ===============================================================
    FEATURED / NEW ARRIVALS
 ================================================================ --}}
-<section class="py-24 bg-stone-50 border-t border-stone-200">
+<section class="py-14 bg-stone-50 border-t border-stone-200">
   <div class="max-w-7xl mx-auto px-6">
     <div class="flex items-center justify-between mb-10">
       <h3 class="text-3xl font-semibold text-stone-800">New Arrivals</h3>
@@ -79,7 +79,7 @@
     <div class="swiper featuredSwiper">
       <div class="swiper-wrapper">
         @foreach($products as $p)
-          <div class="swiper-slide w-[250px]">
+          <div class="swiper-slide w-[250px] mr-5">
             <x-product-card :product="$p" />
           </div>
         @endforeach
@@ -94,13 +94,15 @@
 ================================================================ --}}
 @foreach($categories as $cat)
   @if(isset($cat->children) && $cat->children->isNotEmpty())
-  <section class="py-20 bg-white border-t border-stone-100">
+  <section class="py-7 bg-white border-t border-stone-100">
     <div class="max-w-7xl mx-auto px-6">
 
       {{-- Section Header --}}
       <div class="flex justify-between items-center mb-8">
         <h3 class="text-2xl font-bold text-stone-900 uppercase tracking-wide">{{ $cat->name }}</h3>
-        <a href="/category/{{ $cat->slug }}" class="text-amber-700 hover:underline text-sm font-medium">View all</a>
+        <a href="{{ route('category.show', $cat->slug) }}" class="text-amber-700 hover:underline text-sm font-medium">
+          View All
+        </a>
       </div>
 
       {{-- Subcategory Tabs --}}
@@ -118,52 +120,17 @@
       {{-- Subcategory Carousels --}}
       @foreach($cat->children as $i => $sub)
       <div id="subcat-{{ $sub->id }}" class="subcategory-carousel {{ $i>0 ? 'hidden' : '' }}">
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          @foreach($sub->products as $p)
-            @php
-              $img = optional($p->images->first())->image_url;
-              $discount = $p->discount_price ? round((1 - ($p->discount_price / $p->price)) * 100) : 0;
-            @endphp
-
-            {{-- Product Card --}}
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition relative group border border-stone-100">
-              
-              {{-- Discount Ribbon --}}
-              @if($discount > 0)
-                <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-md">
-                  -{{ $discount }}%
-                </span>
-              @endif
-
-              {{-- Product Image --}}
-              <a href="{{ route('product.show', $p->slug) }}" class="block relative">
-                <img src="{{ $img ? asset('storage/'.$img) : asset('template/images/no-image.png') }}"
-                     alt="{{ $p->name }}"
-                     class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500">
-              </a>
-
-              {{-- Product Info --}}
-              <div class="p-4 text-center">
-                <h5 class="font-medium text-stone-800 text-sm truncate">{{ $p->name }}</h5>
-                <p class="text-stone-500 text-xs mb-1">{{ $sub->name }}</p>
-                <p class="text-amber-700 font-bold text-base">
-                  ৳{{ number_format($p->discount_price ?? $p->price, 0) }}
-                  @if($p->discount_price)
-                    <span class="line-through text-stone-400 text-xs ml-1">৳{{ number_format($p->price, 0) }}</span>
-                  @endif
-                </p>
-                <form action="{{ route('cart.add', $p->id) }}" method="POST" class="mt-3">
-                  @csrf
-                  <button type="submit"
-                    class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-md text-sm font-medium transition">
-                      Add to Cart
-                  </button>
-                </form>
-
-              </div>
-            </div>
-          @endforeach
-        </div>
+        @if($sub->products->count())
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            @foreach($sub->products as $p)
+              <x-product-card :product="$p" />
+            @endforeach
+          </div>
+        @else
+          <div class="text-center py-10 text-stone-400 italic text-sm">
+            No products available in this category yet.
+          </div>
+        @endif
       </div>
       @endforeach
 
@@ -171,6 +138,8 @@
   </section>
   @endif
 @endforeach
+
+
 
 
 {{-- ===============================================================
@@ -247,7 +216,47 @@
 @push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Tab switcher for subcategory
+
+  // =========================
+  // HERO SWIPER
+  // =========================
+  new Swiper(".heroSwiper", {
+    slidesPerView: 1,
+    loop: true,
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    effect: 'fade',
+    speed: 1000,
+  });
+
+  // =========================
+  // FEATURED / NEW ARRIVALS SWIPER
+  // =========================
+  const featuredSwiper = new Swiper(".featuredSwiper", {
+    slidesPerView: 4,
+    spaceBetween: 24,
+    loop: true,
+    grabCursor: true,
+    navigation: {
+      nextEl: ".featured-next",
+      prevEl: ".featured-prev"
+    },
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true
+    },
+    breakpoints: {
+      320:  { slidesPerView: 1.2, spaceBetween: 14 },
+      640:  { slidesPerView: 2,   spaceBetween: 18 },
+      1024: { slidesPerView: 3,   spaceBetween: 20 },
+      1280: { slidesPerView: 4,   spaceBetween: 24 }
+    }
+  });
+
+  // =========================
+  // SUBCATEGORY TAB SWITCHER
+  // =========================
   document.querySelectorAll('.subcategory-tab').forEach(tab => {
     tab.addEventListener('click', function() {
       const target = this.getAttribute('data-target');
@@ -258,6 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
         btn.classList.remove('text-amber-700', 'border-b-2', 'border-amber-600');
         btn.classList.add('text-stone-600');
       });
+
       // Activate clicked tab
       this.classList.add('text-amber-700', 'border-b-2', 'border-amber-600');
       this.classList.remove('text-stone-600');
@@ -267,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function() {
       wrapper.querySelector(target).classList.remove('hidden');
     });
   });
-});
 
+});
 </script>
 @endpush
